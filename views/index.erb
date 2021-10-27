@@ -6,6 +6,13 @@
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 </head>
 <body>
-
+  <% @numbers.each do |n| %> 
+    <div>
+      <h3><%= n.number %></h3>
+      <form action="/plus/<%= n.id %>" method="post">
+        <input type="submit" value="プラス"></input>
+      </form>
+    </div>
+  <% end %>
 </body>
 </html>

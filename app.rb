@@ -1,14 +1,16 @@
-require "open-uri"
-require "json"
-	require "net/http"
+require 'bundler/setup'
+Bundler.require
+require 'sinatra/reloader' if development?
+require './models/count.rb'
 
-uri = URI("http://express.heartrails.com/api/json")
-uri.query = URI.encode_www_form({
-	method: "getStations",
-	x: 139,
-	y: 35
-})
-res = Net:HTTP.get_response(uri)
-json = JSON.parse(res.body)
+get "/" do 
+	@numbers = Count.all.order(id: :desc)
+	erb :index
+end
 
-print(json)
+post "/plus/:id" do
+	count = Count.all.find_by(id: params[:id])
+	count.number += 1
+	count.save
+	redirect "/"
+end
